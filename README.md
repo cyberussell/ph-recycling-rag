@@ -8,7 +8,29 @@ Management Act of 2000) and its Implementing Rules and Regulations (DENR DAO
 Full architecture/design plan: see `PLAN.md` (or ask for it — it covers the
 hybrid search, reranking, and agentic-loop design planned for M2-M4).
 
-## Status: M5 (evaluation harness) complete
+## Status: M6 (UI) complete — all milestones done
+
+```mermaid
+flowchart LR
+    U[Citizen question] --> ST[Streamlit UI]
+    ST -->|POST /ask| API[FastAPI]
+    API --> RT[Router: classify intent]
+    RT -->|out_of_scope| RD[Canned redirect]
+    RT -->|in_scope| HS[Hybrid search: dense + sparse RRF]
+    HS --> RR[Cross-encoder rerank]
+    RR --> SC[Sufficiency check]
+    SC -->|insufficient, attempt 1| RF[Reformulate query]
+    RF --> HS
+    SC -->|sufficient, or attempt 2| GEN[Generate: Haiku/Sonnet]
+    GEN --> CC[Citation guardrail]
+    CC --> ST
+    RD --> ST
+
+    QD[(Qdrant\ndense+sparse)] -.-> HS
+    RA[RA 9003 + IRR + NSWMC docs] -.->|ingest, chunk, embed| QD
+```
+
+
 
 - Ingestion: fetches RA 9003 (lawphil.net), its IRR, the NSWMC National SWM
   Framework, and two household/consumer segregation guides — all from
@@ -55,6 +77,14 @@ hybrid search, reranking, and agentic-loop design planned for M2-M4).
   `[S#]` citations and the anti-hallucination guardrail; a low-confidence
   note is appended to the prompt when the final sufficiency check still
   failed, reinforcing (not replacing) the system prompt's hedge rule.
+- App layer: FastAPI backend (`src/api/main.py`, one `POST /ask` endpoint
+  that runs the full pipeline and returns both the answer and a complete
+  debug trace) + Streamlit frontend (`src/ui/streamlit_app.py`) with example-
+  question chips and a "🔍 How I found this" panel exposing classification,
+  retrieval attempts, reformulated query, model used, and the reranked
+  chunks with scores — this is what actually demonstrates the hybrid-search
+  + rerank + agentic-loop machinery to a reviewer, not just the final
+  answer text. `Dockerfile` + `docker-compose.yml` bundle Qdrant + API + UI.
 
 481 chunks indexed across 5 documents (236 statute, 92 IRR, 84 framework, 5
 household guide, 64 SWM guidebook).
@@ -82,6 +112,23 @@ python -m src.cli ask "What is the penalty for littering?"
 python -m src.cli ask "Can I recycle a Tetra Pak?" --debug   # --debug shows the full agentic trace
 python -m src.cli ask "..." --no-agent                       # bypass the loop (M3 behavior only)
 ```
+
+## Run the app (FastAPI + Streamlit)
+
+```bash
+uvicorn src.api.main:app --reload &
+API_URL=http://localhost:8000 streamlit run src/ui/streamlit_app.py
+```
+
+Or with Docker (bundles Qdrant + API + UI):
+
+```bash
+docker-compose up --build
+```
+`docker-compose` wasn't runnable in this dev environment (no local Docker
+daemon — noted back in M1), so the FastAPI/Streamlit combo above is what was
+actually tested end-to-end this session; `Dockerfile`/`docker-compose.yml`
+are provided as real, standard config but unverified by an actual build here.
 
 ## Run the evaluation
 
@@ -231,6 +278,26 @@ their answers) is in `src/eval/results/eval_report.md`.
 dependency changes) — unrelated to any code in this repo, but it blocked
 investigation until reinstalled cleanly.
 
-## Roadmap
+## M6: UI — verified end-to-end, one real bug found and fixed
 
-- **M6** — FastAPI + Streamlit UI with a "how I found this" transparency panel.
+Tested live: FastAPI's `/ask` (both the normal generation path and the
+router's out-of-scope short-circuit) via direct requests, and the Streamlit
+UI in a real browser — example-question chips, the full answer render, the
+deduplicated sources list, and the "How I found this" panel all confirmed
+working against the live API.
+
+**Bug found and fixed:** the example-question buttons didn't populate the
+text input. Root cause is a classic Streamlit gotcha — a `st.text_input`
+given both `value=...` and `key=...` only honors `value=` on its very first
+render; on every rerun after that (including the one a button click
+triggers), the widget's own `session_state[key]` entry wins, so writing to a
+*different* session_state variable and passing it as `value=` has no effect
+once the widget has rendered once. Fixed by writing directly to
+`session_state["question_input"]` (the widget's own key) before the
+`text_input` call, and dropping the `value=` argument entirely.
+
+All six milestones from the original plan are now complete — see `PLAN.md`
+for the original design and each milestone section above for what was
+actually found while building it, including two places where testing
+overturned an earlier conclusion (M2→M3's Taglish reranking hope, and M3→M5's
+"reranking helps" spot-check) rather than just confirming assumptions.
