@@ -1,5 +1,6 @@
 qdrant-client>=1.10
 sentence-transformers
+FlagEmbedding
 torch
 anthropic
 pdfplumber

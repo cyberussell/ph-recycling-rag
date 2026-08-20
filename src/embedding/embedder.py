@@ -1,35 +1,48 @@
-"""Dense embedding wrapper.
+"""Dense + sparse embedding wrapper (M2).
 
-M1 uses a small English-only model (`bge-small-en-v1.5`) to keep local
-iteration fast while the rest of the pipeline (chunking, indexing, retrieval,
-generation) gets proven end-to-end. The corpus itself is English legal text,
-so this is sufficient for M1. M2 swaps this for `BAAI/bge-m3`, which is
-multilingual (needed once Taglish-phrased queries and the sparse/hybrid path
-are in scope) and produces dense + sparse vectors from a single forward pass
-— see the retrieval/hybrid_search module added at that milestone.
+Upgraded from M1's English-only `bge-small-en-v1.5` to `BAAI/bge-m3`:
+multilingual (needed for Taglish-phrased queries), 8192-token context, and —
+the key reason for choosing it — a single forward pass yields both a dense
+vector and a sparse (lexical-weight) vector, which is exactly what hybrid
+search needs without stitching together two separate models.
 """
 
 from functools import lru_cache
 
-from sentence_transformers import SentenceTransformer
+from FlagEmbedding import BGEM3FlagModel
 
-MODEL_NAME = "BAAI/bge-small-en-v1.5"
+MODEL_NAME = "BAAI/bge-m3"
+DENSE_DIM = 1024
 
 
 @lru_cache(maxsize=1)
-def _model() -> SentenceTransformer:
-    return SentenceTransformer(MODEL_NAME)
+def _model() -> BGEM3FlagModel:
+    return BGEM3FlagModel(MODEL_NAME, use_fp16=False)
 
 
-def embed_texts(texts: list[str]) -> list[list[float]]:
-    """Embeds a batch of chunk texts (or queries) for cosine-similarity search."""
-    vectors = _model().encode(texts, normalize_embeddings=True, show_progress_bar=False)
-    return [v.tolist() for v in vectors]
+def _sparse_from_lexical_weights(weights: dict) -> dict:
+    """Converts FlagEmbedding's {token_id_str: weight} into Qdrant's
+    {"indices": [...], "values": [...]} sparse vector format."""
+    indices = [int(token_id) for token_id in weights]
+    values = [float(w) for w in weights.values()]
+    return {"indices": indices, "values": values}
 
 
-def embed_query(query: str) -> list[float]:
+def embed_texts(texts: list[str]) -> list[dict]:
+    """Embeds a batch of chunk texts (or queries). Returns a list of
+    {"dense": [...], "sparse": {"indices": [...], "values": [...]}}."""
+    out = _model().encode(
+        texts, return_dense=True, return_sparse=True, return_colbert_vecs=False
+    )
+    return [
+        {"dense": dense.tolist(), "sparse": _sparse_from_lexical_weights(sparse)}
+        for dense, sparse in zip(out["dense_vecs"], out["lexical_weights"])
+    ]
+
+
+def embed_query(query: str) -> dict:
     return embed_texts([query])[0]
 
 
 def vector_size() -> int:
-    return _model().get_embedding_dimension()
+    return DENSE_DIM
