@@ -1,0 +1,16 @@
+qdrant-client>=1.10
+sentence-transformers
+torch
+anthropic
+pdfplumber
+pypdf
+beautifulsoup4
+requests
+pydantic
+python-dotenv
+tenacity
+rank-bm25
+fastapi
+uvicorn
+streamlit
+pytest

@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+qdrant_storage/
+qdrant_local/
+data/raw/*
+!data/raw/.gitkeep
+.DS_Store
