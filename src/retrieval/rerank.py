@@ -10,6 +10,12 @@ A cross-encoder scores actual query-chunk relevance jointly (unlike the bi-
 encoder dense/sparse vectors, which score query and chunk independently),
 which is what lets it recover precision RRF fusion can lose — see the M2
 finding in the README about Taglish queries.
+
+Forced onto CPU: sentence-transformers auto-selects Apple's MPS GPU backend
+on this machine, and the agentic loop (M4) can call rerank() twice in one
+process (initial attempt + reformulated retry) — MPS ran out of memory doing
+that back-to-back alongside the embedder's own model. CPU is slower but
+doesn't have that failure mode, and correctness matters more than latency here.
 """
 
 from functools import lru_cache
@@ -21,7 +27,7 @@ MODEL_NAME = "BAAI/bge-reranker-v2-m3"
 
 @lru_cache(maxsize=1)
 def _model() -> CrossEncoder:
-    return CrossEncoder(MODEL_NAME)
+    return CrossEncoder(MODEL_NAME, device="cpu")
 
 
 def rerank(query: str, chunks: list[dict], top_k: int) -> list[dict]:

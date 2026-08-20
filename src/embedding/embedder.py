@@ -5,6 +5,11 @@ multilingual (needed for Taglish-phrased queries), 8192-token context, and —
 the key reason for choosing it — a single forward pass yields both a dense
 vector and a sparse (lexical-weight) vector, which is exactly what hybrid
 search needs without stitching together two separate models.
+
+Forced onto CPU (see rerank.py for the same note): sentence-transformers/
+FlagEmbedding auto-select Apple's MPS GPU backend on this machine, and the
+agentic loop (M4) embeds queries repeatedly in one process — MPS ran out of
+memory under that load. CPU is slower but doesn't have that failure mode.
 """
 
 from functools import lru_cache
@@ -17,7 +22,7 @@ DENSE_DIM = 1024
 
 @lru_cache(maxsize=1)
 def _model() -> BGEM3FlagModel:
-    return BGEM3FlagModel(MODEL_NAME, use_fp16=False)
+    return BGEM3FlagModel(MODEL_NAME, use_fp16=False, devices="cpu")
 
 
 def _sparse_from_lexical_weights(weights: dict) -> dict:

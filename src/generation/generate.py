@@ -30,7 +30,9 @@ def _client() -> Anthropic:
     return Anthropic(api_key=api_key)
 
 
-def generate_answer(query: str, chunks: list[dict], model: str = DEFAULT_MODEL) -> dict:
+def generate_answer(
+    query: str, chunks: list[dict], model: str = DEFAULT_MODEL, low_confidence: bool = False
+) -> dict:
     if not chunks:
         return {
             "answer": "I don't have any indexed source material to answer that yet.",
@@ -40,6 +42,15 @@ def generate_answer(query: str, chunks: list[dict], model: str = DEFAULT_MODEL) 
         }
 
     user_message = build_user_message(query, chunks)
+    if low_confidence:
+        # Set when the agentic loop's sufficiency check still failed after a
+        # reformulated retry — reinforces (doesn't replace) the system prompt's
+        # existing hedge rule, since retrieval confidence for this query is known low.
+        user_message += (
+            "\n\n(Note: retrieval confidence for this question was low even after a "
+            "reformulated search. If the excerpts above don't fully answer it, say so "
+            "explicitly rather than filling the gap.)"
+        )
     response = _client().messages.create(
         model=model,
         max_tokens=1024,

@@ -8,7 +8,7 @@ Management Act of 2000) and its Implementing Rules and Regulations (DENR DAO
 Full architecture/design plan: see `PLAN.md` (or ask for it — it covers the
 hybrid search, reranking, and agentic-loop design planned for M2-M4).
 
-## Status: M3 (reranking) complete
+## Status: M4 (agentic corrective-retrieval loop) complete
 
 - Ingestion: fetches RA 9003 (lawphil.net), its IRR, the NSWMC National SWM
   Framework, and two household/consumer segregation guides — all from
@@ -36,8 +36,25 @@ hybrid search, reranking, and agentic-loop design planned for M2-M4).
   `src/retrieval/rerank.py`). `search_with_trace()` exposes both the
   pre-rerank and post-rerank ranking for debugging/eval — `python -m src.cli
   ask ... --debug` prints both.
-- Generation: unchanged from M1 — Claude Haiku with inline `[S#]` citations
-  and the anti-hallucination guardrail.
+- Agentic loop (`src/retrieval/agentic_loop.py`): a Haiku tool-call router
+  classifies each query (`segregation_howto` / `penalty_legal` / `definition`
+  / `out_of_scope`) — out-of-scope questions short-circuit to a canned
+  redirect before any retrieval or generation cost, and in-scope
+  classifications softly boost matching `doc_type`s post-rerank (never a
+  hard filter). A sufficiency-check tool-call then judges whether the
+  reranked chunks actually answer the question; if not, one reformulation
+  call rewrites the query into statute vocabulary and retrieval runs once
+  more (hard-capped at 2 attempts total, then falls back to an explicit
+  "I don't have this" hedge rather than guessing).
+- Model routing: the same sufficiency-check call also flags whether the
+  final answer needs escalation (conflicting/multi-provision evidence, a
+  legal-interpretation question, or sufficiency still failing after retry) —
+  Haiku by default, Sonnet only when flagged. No extra dedicated call for
+  this; it reuses the sufficiency check's own judgment.
+- Generation: Claude Haiku/Sonnet (per the routing above) with inline
+  `[S#]` citations and the anti-hallucination guardrail; a low-confidence
+  note is appended to the prompt when the final sufficiency check still
+  failed, reinforcing (not replacing) the system prompt's hedge rule.
 
 481 chunks indexed across 5 documents (236 statute, 92 IRR, 84 framework, 5
 household guide, 64 SWM guidebook).
@@ -62,7 +79,8 @@ python -c "from src.indexing.build_index import build_and_index; build_and_index
 
 ```bash
 python -m src.cli ask "What is the penalty for littering?"
-python -m src.cli ask "Can I recycle a Tetra Pak?" --debug   # --debug shows retrieved chunks + scores
+python -m src.cli ask "Can I recycle a Tetra Pak?" --debug   # --debug shows the full agentic trace
+python -m src.cli ask "..." --no-agent                       # bypass the loop (M3 behavior only)
 ```
 
 ## Known limitation (M2→M3): reranking fixes English precision, not Taglish
@@ -100,11 +118,43 @@ itself (Taglish → statute-vocabulary English) rather than trying to fix this
 at the ranking layer — the evidence now says the fix has to happen upstream
 of retrieval, not within it.
 
+## M4 validated: reformulation fixes what reranking alone couldn't
+
+Re-testing the exact Taglish query that regressed under reranking alone
+("Magkano ang multa sa pagkalat ng basura?"):
+
+1. Router classifies it `penalty_legal`.
+2. Attempt 1 (original query): sufficiency check correctly says no — the
+   littering-specific penalty isn't in the top chunks.
+3. Reformulation rewrites it to *"What are the fines and penalties imposed
+   for littering and throwing of waste matters in public places?"* — close
+   to RA 9003 Sec. 48's actual statute language.
+4. Attempt 2 (reformulated query): rerank scores jump to sharp, confident
+   values (1.14, 1.03, 1.02, 0.99) — the same quality signature M3 only saw
+   on clean English queries — and the correct IRR fines section lands #1.
+5. The sufficiency check still flags mild doubt (an excerpt-preview
+   truncation artifact, since fixed by widening the preview from 300→800
+   chars), which correctly triggers escalation to Sonnet. The final answer
+   is accurate, in Filipino (matching the query's language), cites the right
+   sections, and appropriately hedges that current fine amounts may have
+   risen with RA 9003's built-in inflation adjustment.
+
+Two other cases confirm the loop isn't just reformulating everything: the
+Tetra Pak query is judged sufficient on the *first* attempt (the M2 corpus
+expansion already put an explicit "Tetra Pak" mention in reach of a sharp
+0.58 rerank score) and stays on cheap Haiku with no wasted second call; an
+out-of-scope query ("best pizza topping") is caught by the router and
+redirected before any retrieval or generation cost at all.
+
+**Bug found and fixed along the way:** `sentence-transformers`/`FlagEmbedding`
+auto-selected Apple's MPS GPU backend on this machine, and the loop's second
+retrieval attempt (embed + rerank running twice in one process) exhausted
+MPS memory and crashed. Both `embedder.py` and `rerank.py` now force CPU
+explicitly — slower, but it doesn't have that failure mode, which matters
+more here.
+
 ## Roadmap
 
-- **M4** — agentic corrective-retrieval loop: sufficiency check, bounded
-  query reformulation (now evidenced as necessary, not just nice-to-have —
-  see the Taglish reranking finding above), explicit fallback, +
-  Haiku/Sonnet model routing.
-- **M5** — evaluation harness (labeled Q&A set, recall/citation/faithfulness metrics).
+- **M5** — evaluation harness (labeled Q&A set, recall/citation/faithfulness
+  metrics, before/after comparison across M1-M4).
 - **M6** — FastAPI + Streamlit UI with a "how I found this" transparency panel.
