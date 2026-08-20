@@ -9,6 +9,9 @@ reviewer — not just the final answer text.
 """
 
 import os
+import subprocess
+import sys
+import time
 
 import requests
 import streamlit as st
@@ -22,7 +25,37 @@ EXAMPLE_QUESTIONS = [
     "How do I segregate my household waste?",
 ]
 
+
+@st.cache_resource
+def _ensure_backend_running() -> bool:
+    """Hugging Face Spaces' Streamlit SDK runs a single process, so when
+    API_URL still points at localhost (i.e. no external API was configured)
+    this spawns the FastAPI backend as a background subprocess exactly once
+    per container lifetime. Local dev where you've started uvicorn yourself
+    is unaffected — this only fires if nothing is already listening."""
+    def reachable() -> bool:
+        try:
+            return requests.get(f"{API_URL}/health", timeout=2).ok
+        except requests.RequestException:
+            return False
+
+    if reachable():
+        return True
+    if "localhost" not in API_URL and "127.0.0.1" not in API_URL:
+        return False  # pointed at a real external API that just isn't up yet
+
+    subprocess.Popen(
+        [sys.executable, "-m", "uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    )
+    for _ in range(30):
+        if reachable():
+            return True
+        time.sleep(2)
+    return False
+
+
 st.set_page_config(page_title="PH Recycling Assistant", page_icon="♻️")
+_ensure_backend_running()
 st.title("♻️ PH Recycling Assistant")
 st.caption(
     "Ask about Philippine solid waste segregation, recycling, and RA 9003 rules. "
@@ -46,13 +79,18 @@ ask_clicked = st.button("Ask", type="primary")
 
 if ask_clicked and question.strip():
     with st.spinner("Classifying, searching, and generating an answer..."):
+        result = None
         try:
             resp = requests.post(f"{API_URL}/ask", json={"question": question}, timeout=120)
-            resp.raise_for_status()
-            result = resp.json()
+            if resp.status_code == 429:
+                st.warning(resp.json().get("detail", "Demo request limit reached — please try again tomorrow."))
+            elif resp.status_code == 503:
+                st.info(resp.json().get("detail", "Still warming up — please retry in a moment."))
+            else:
+                resp.raise_for_status()
+                result = resp.json()
         except requests.RequestException as e:
             st.error(f"Couldn't reach the API at {API_URL}: {e}")
-            result = None
 
     if result:
         st.markdown(result["answer"])

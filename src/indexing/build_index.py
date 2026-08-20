@@ -66,6 +66,25 @@ def build_chunks(milestone: str = "m1") -> list[dict]:
     return all_chunks
 
 
+def load_processed_chunks(milestone: str = "m2") -> list[dict]:
+    """Loads already-chunked output from data/processed/*.json (committed to
+    git) without touching data/raw or re-fetching anything. Used to bootstrap
+    a fresh deployment (e.g. a Hugging Face Space container) — re-fetching
+    from government sites at container-startup time is a real reliability
+    risk for a public demo (rate limiting, WAF blocks, or the site being
+    down), and unnecessary since the chunked text doesn't change without a
+    code change to the chunkers themselves."""
+    all_chunks: list[dict] = []
+    for doc in sources_for_milestone(milestone):
+        path = PROCESSED_DIR / f"{doc.doc_id}.json"
+        if not path.exists():
+            raise FileNotFoundError(
+                f"{path} missing — run build_chunks('{milestone}') at least once and commit its output."
+            )
+        all_chunks.extend(json.loads(path.read_text()))
+    return all_chunks
+
+
 def index_chunks(
     chunks: list[dict], collection_name: str = COLLECTION_NAME, batch_size: int = 16, fresh: bool = False
 ) -> None:

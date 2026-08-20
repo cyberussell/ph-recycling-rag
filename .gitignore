@@ -5,7 +5,10 @@ __pycache__/
 .venv/
 venv/
 qdrant_storage/
-qdrant_local/
+# qdrant_local/ is intentionally committed (small, ~7MB) so the live demo
+# starts instantly instead of rebuilding the index on every cold boot — see
+# src/api/main.py's _ensure_index_built() for the rebuild-if-missing fallback.
+qdrant_local/.lock
 data/raw/*
 !data/raw/.gitkeep
 .DS_Store
