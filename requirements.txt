@@ -1,6 +1,7 @@
 qdrant-client>=1.10
-sentence-transformers
-FlagEmbedding
+sentence-transformers>=3.2  # CrossEncoder reranker (bge-reranker-v2-m3)
+FlagEmbedding             # BGE-M3 dense+sparse embedder only; its own reranker
+                          # path conflicts with transformers>=5, see rerank.py
 torch
 anthropic
 pdfplumber

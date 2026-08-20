@@ -8,17 +8,27 @@ Usage:
 import argparse
 
 from .generation.generate import generate_answer
-from .retrieval.hybrid_search import search
+from .retrieval.hybrid_search import search, search_with_trace
+
+
+def _label(c: dict) -> str:
+    loc = c["section_id"] or f"p.{c['page_number']}"
+    return f"{c['source_title']} {loc}" + (f" - {c['section_title']}" if c.get("section_title") else "")
 
 
 def ask(query: str, top_k: int = 5, debug: bool = False) -> None:
-    chunks = search(query, top_k=top_k)
-
     if debug:
-        print(f"--- retrieved {len(chunks)} chunks ---")
-        for c in chunks:
-            print(f"  {c['chunk_id']}  score={c['score']:.3f}  {c['source_title']} {c['section_id']}")
+        trace = search_with_trace(query, top_k=top_k)
+        print(f"--- pre-rerank (RRF fusion, top {top_k}) ---")
+        for c in trace["pre_rerank"]:
+            print(f"  rrf={c['score']:.4f}  {_label(c)}")
+        print(f"--- post-rerank (cross-encoder, top {top_k}) ---")
+        for c in trace["post_rerank"]:
+            print(f"  rerank={c['rerank_score']:.4f}  {_label(c)}")
         print()
+        chunks = trace["post_rerank"]
+    else:
+        chunks = search(query, top_k=top_k)
 
     result = generate_answer(query, chunks)
 
