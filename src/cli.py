@@ -36,7 +36,7 @@ def _print_debug_trace(result: dict) -> None:
     print()
 
 
-def ask(query: str, top_k: int = 5, debug: bool = False, use_agent: bool = True) -> None:
+def ask(query: str, top_k: int = 8, debug: bool = False, use_agent: bool = True) -> None:
     if not use_agent:
         chunks = search(query, top_k=top_k)
         result_answer = generate_answer(query, chunks)
@@ -69,7 +69,7 @@ def main() -> None:
 
     ask_parser = subparsers.add_parser("ask", help="Ask a question")
     ask_parser.add_argument("query", type=str)
-    ask_parser.add_argument("--top-k", type=int, default=5)
+    ask_parser.add_argument("--top-k", type=int, default=8)
     ask_parser.add_argument("--debug", action="store_true")
     ask_parser.add_argument("--no-agent", action="store_true", help="bypass the agentic loop")
 

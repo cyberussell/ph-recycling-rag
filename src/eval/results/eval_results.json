@@ -1,0 +1,491 @@
+{
+  "summary": {
+    "n_retrieval": 30,
+    "n_generation": 16,
+    "recall_at_5_pre_rerank": 0.8666666666666667,
+    "recall_at_5_post_rerank": 0.8,
+    "recall_at_10_pre_rerank": 0.9666666666666667,
+    "recall_at_10_post_rerank": 0.9,
+    "avg_keyfact_coverage": 0.6708333333333333,
+    "citation_clean_rate": 1.0,
+    "avg_faithfulness": 3.2142857142857144,
+    "model_usage": {
+      "router_only": 2,
+      "claude-haiku-4-5-20251001": 13,
+      "claude-sonnet-5": 1
+    }
+  },
+  "retrieval": [
+    {
+      "id": "seg-1",
+      "category": "segregation_howto",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "seg-2",
+      "category": "segregation_howto",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "seg-3",
+      "category": "segregation_howto",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "seg-4",
+      "category": "segregation_howto",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "seg-5",
+      "category": "segregation_howto",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "seg-6",
+      "category": "segregation_howto",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "seg-7",
+      "category": "segregation_howto",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "seg-8",
+      "category": "segregation_howto",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "pen-1",
+      "category": "penalty_legal",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "pen-2",
+      "category": "penalty_legal",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "pen-3",
+      "category": "penalty_legal",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "pen-4",
+      "category": "penalty_legal",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "pen-5",
+      "category": "penalty_legal",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "pen-6",
+      "category": "penalty_legal",
+      "pre_rerank_hit_at_5": false,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": false,
+      "post_rerank_hit_at_10": false
+    },
+    {
+      "id": "pen-7",
+      "category": "penalty_legal",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "pen-8",
+      "category": "penalty_legal",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "def-1",
+      "category": "definition",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "def-2",
+      "category": "definition",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": false,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "def-3",
+      "category": "definition",
+      "pre_rerank_hit_at_5": false,
+      "pre_rerank_hit_at_10": false,
+      "post_rerank_hit_at_5": false,
+      "post_rerank_hit_at_10": false
+    },
+    {
+      "id": "def-4",
+      "category": "definition",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": false,
+      "post_rerank_hit_at_10": false
+    },
+    {
+      "id": "def-5",
+      "category": "definition",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "def-6",
+      "category": "definition",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "tgl-1",
+      "category": "taglish",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": false,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "tgl-2",
+      "category": "taglish",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "tgl-3",
+      "category": "taglish",
+      "pre_rerank_hit_at_5": false,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "tgl-4",
+      "category": "taglish",
+      "pre_rerank_hit_at_5": false,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": false,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "tgl-5",
+      "category": "taglish",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "adv-1",
+      "category": "adversarial",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "adv-2",
+      "category": "adversarial",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    },
+    {
+      "id": "adv-3",
+      "category": "adversarial",
+      "pre_rerank_hit_at_5": true,
+      "pre_rerank_hit_at_10": true,
+      "post_rerank_hit_at_5": true,
+      "post_rerank_hit_at_10": true
+    }
+  ],
+  "generation": [
+    {
+      "id": "seg-1",
+      "category": "segregation_howto",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "# How to Segregate Your Household Waste\n\nYou should separate your trash into **four types** as you throw things away [S1]:\n\n1. **Recyclables** \u2013 plastics, metals, paper, glass (can be sold to junk shops) [S1]\n2. **Biodegradables** \u2013 food scraps, yard waste (can become compost) [S1]\n3. **Residual Waste** \u2013 materials that can't be recycled or composted [S1]\n4. **Special or Toxic Waste** \u2013 motor oil, paints, chemicals, spray canisters (need special handling) [S1]\n\n**Key steps:**\n- Use a **separate container for each type** [S2]\n- **Clean recyclables** before storing them [S2]\n- Make sure **all household members** understand how to segregate [S1]\n- Practice segregation **at all times** [S1]\n\nFor recyclables, take them to your barangay's **Materials Recovery Facility (MRF)** [S2]. For biodegradable waste, you can compost it at home (chop it fine, mix, add water, layer with soil, and turn monthly) or at a community composting site [S2]. Hazardous wastes need special collection\u2014contact your barangay or city solid waste office [S2].\n\n**Basis:**\n- [S1] Defines the four waste categories and emphasizes segregation at source with separate containers\n- [S2] Explains the segregation process, cleaning recyclables, and disposal routes for each type\n- [S4] States that waste segregation is mandated by law and must happen at the source\n\n**Note:** Your exact collection schedule, MRF location, and rules for special waste disposal vary by city/municipality\u2014check with your local barangay or city solid waste office for specifics.\n\nSources:\n1. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n2. Ecological Solid Waste Management for Households (https://nswmc.emb.gov.ph/wp-content/uploads/2016/06/6.ESWM-for-HH.pdf)\n3. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n4. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)\n5. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)",
+      "keyfact_coverage": 0.3333333333333333,
+      "keyfact_missing": [
+        "separate container for each type of waste",
+        "compostable, non-recyclable, recyclable"
+      ],
+      "citation_clean": true,
+      "faithfulness_score": 3,
+      "faithfulness_reason": "The answer's main claims about segregating waste into four types and using separate containers are supported by excerpts [1] and [2], but specific details about recyclables, biodegradables, residual waste, Materials Recovery Facilities, composting instructions, and local office procedures are not found in the provided source excerpts."
+    },
+    {
+      "id": "seg-2",
+      "category": "segregation_howto",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "# What is a Materials Recovery Facility and where should it be located?\n\nA Materials Recovery Facility (MRF) is a facility that receives mixed waste for final sorting, segregation, composting, and recycling [S1]. It can include a solid waste transfer station, sorting station, drop-off center, composting facility, and recycling facility [S3]. \n\nBy law, every barangay or cluster of barangays must establish an MRF on barangay-owned or leased land, or any suitable open space determined by the barangay through its Sanggunian [S1]. The barangay must allocate a parcel of land specifically for this purpose [S1].\n\n**Basis:**\n- [S1] Defines MRF function (sorting, segregation, composting, recycling) and mandates one facility per barangay/cluster on barangay land or suitable open space.\n- [S3] Provides the legal definition of MRF as encompassing transfer stations, sorting stations, drop-off centers, composting facilities, and recycling facilities.\n\n**Note:** The specific suitable open space in your barangay will be decided locally by your barangay officials. Check with your barangay government for your area's MRF location and details, as these vary by locality.\n\nSources:\n1. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)\n2. IRR of RA 9003 (https://nswmc.emb.gov.ph/wp-content/uploads/2025/04/RA-9003-IRR.pdf)\n3. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)\n4. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n5. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)",
+      "keyfact_coverage": 0.6666666666666666,
+      "keyfact_missing": [
+        "barangay-owned or -leased land"
+      ],
+      "citation_clean": true,
+      "faithfulness_score": 5,
+      "faithfulness_reason": "Every claim in the answer is directly supported by the provided source excerpts, including the definition of MRF, its functions, and location requirements."
+    },
+    {
+      "id": "seg-4",
+      "category": "segregation_howto",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "Yes, you can recycle a Tetra Pak juice box.\n\nBasis:\n- [S1] Tetra Pak and doy pack packaging (which includes juice boxes) are explicitly listed as recyclable materials under the \"Paper\" category in the national solid waste management guidelines.\n- [S2] The guideline also mentions \"handbag made out of recycled tetrapaks\" as an example of how these materials can be turned into useful resources through recycling.\n\nNote: Your local government unit may have specific instructions on how to prepare Tetra Paks for collection (for example, [S1] suggests flattening them to reduce space). Check with your city or municipality's solid waste office for their specific segregation schedule and collection procedures, as these vary by location.\n\nSources:\n1. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n2. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n3. Ecological Solid Waste Management for Households (https://nswmc.emb.gov.ph/wp-content/uploads/2016/06/6.ESWM-for-HH.pdf)\n4. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n5. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)",
+      "keyfact_coverage": 1.0,
+      "keyfact_missing": [],
+      "citation_clean": true,
+      "faithfulness_score": 3,
+      "faithfulness_reason": "The answer correctly identifies that Tetra Paks are mentioned as recyclable in excerpt [1], but the claim about \"handbag made out of recycled tetrapaks\" is not supported by any of the provided excerpts."
+    },
+    {
+      "id": "seg-6",
+      "category": "segregation_howto",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "The three Rs of waste management are **Reduce, Reuse, and Recycle** [S1].\n\n**Basis:**\n\n- [S1] Defines the three Rs: Reduce means limiting trash by avoiding purchases that generate excessive waste; Reuse means finding creative ways to use items again instead of discarding them; and Recycle means recovering materials that can be used as raw materials.\n\n- [S2] Confirms that Philippine law (RA 9003) mandates practicing these three principles\u2014reduction, reuse, and recycling\u2014as core principles for solid waste management.\n\nSources:\n1. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n2. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n3. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n4. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n5. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)",
+      "keyfact_coverage": 1.0,
+      "keyfact_missing": [],
+      "citation_clean": true,
+      "faithfulness_score": 4,
+      "faithfulness_reason": "The answer correctly identifies the three Rs as Reduce, Reuse, and Recycle, which is clearly supported by excerpts [1] and [2]; however, the basis section mentions that Reuse involves \"finding creative ways to use items again\" which is not explicitly stated in the provided excerpts."
+    },
+    {
+      "id": "pen-1",
+      "category": "penalty_legal",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "For littering in a public place, the penalty is a fine of not less than \u20b1300 but not more than \u20b11,000, or rendering community service for not less than one day to no more than 15 days, or both [S1].\n\nBasis:\n- [S1] IRR of RA 9003 establishes the schedule of fines and penalties for littering, throwing, or dumping waste matters in public places like roads, sidewalks, canals, esteros, or parks.\n\nSources:\n1. IRR of RA 9003 (https://nswmc.emb.gov.ph/wp-content/uploads/2025/04/RA-9003-IRR.pdf)\n2. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n3. IRR of RA 9003 (https://nswmc.emb.gov.ph/wp-content/uploads/2025/04/RA-9003-IRR.pdf)\n4. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)\n5. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)",
+      "keyfact_coverage": 0.4,
+      "keyfact_missing": [
+        "P300",
+        "P1,000",
+        "1 day"
+      ],
+      "citation_clean": true,
+      "faithfulness_score": 5,
+      "faithfulness_reason": "The answer's claims about fines (\u20b1300 to \u20b11,000) and community service (1-15 days) for littering are directly supported by excerpt [1], which explicitly lists these penalties for littering in public places."
+    },
+    {
+      "id": "pen-2",
+      "category": "penalty_legal",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "RA 9003 prohibits 16 main acts related to solid waste management, ranging from littering and open burning to improper facility operations and environmentally harmful packaging [S2][S5].\n\nBasis:\n- [S2] Lists 16 prohibited acts under Section 48 of RA 9003, including: (1) littering/dumping in public places; (2) operating equipment in violation of sanitation requirements; (3) open burning of solid waste; (4) collecting non-segregated wastes; (5) squatting in dumps; (6) open dumping in flood-prone areas; (7) unauthorized removal of recyclable materials; (8) mixing source-separated recyclables with other waste; (9) establishing or operating open dumps; (10) manufacturing/distributing non-environmentally acceptable packaging; (11) importing such packaged products; (12) importing toxic wastes mislabeled as recyclable; (13) transporting bulk waste to unauthorized areas; (14) operating waste facilities without proper permits/compliance; (15) constructing establishments near dumps or landfills; and (16) constructing landfills on aquifers or watersheds.\n\n- [S5] Provides the implementing rules' version of these same prohibited acts with identical scope.\n\n- [S1] Summarizes that penalties are outlined in Sections 48 and 49 of RA 9003.\n\nSources:\n1. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n2. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)\n3. National Solid Waste Management Framework (https://nswmc.emb.gov.ph/wp-content/uploads/2017/11/NSWMC-FRAMEWORK-PDF.pdf)\n4. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n5. IRR of RA 9003 (https://nswmc.emb.gov.ph/wp-content/uploads/2025/04/RA-9003-IRR.pdf)",
+      "keyfact_coverage": 1.0,
+      "keyfact_missing": [],
+      "citation_clean": true,
+      "faithfulness_score": 1,
+      "faithfulness_reason": "The answer claims 16 prohibited acts but the provided excerpts only clearly show 4 acts (littering, operating without permits, open burning, and non-segregated collection), with the rest being unsupported hallucinations not found in the source material."
+    },
+    {
+      "id": "pen-4",
+      "category": "penalty_legal",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "Importing toxic waste mislabeled as \"recyclable\" or \"with recyclable content\" is prohibited and carries specific criminal penalties [S3, S4].\n\nUpon conviction, the offender faces a fine of not less than P10,000 but not more than P200,000, or imprisonment of not less than 30 days but not more than three years, or both [S1, S2]. If the offender is an alien, they shall be deported after serving their sentence [S1, S2].\n\nBasis:\n- [S3] Establishes that importation of toxic wastes misrepresented as \"recyclable\" or \"with recyclable content\" is a prohibited act under RA 9003.\n- [S1] Sets the specific fine and imprisonment penalties for this violation under the Implementing Rules and Regulations.\n- [S2] Confirms the same penalty schedule in the NSWMC Guidebook and adds that aliens face deportation after sentence.\n\nSources:\n1. IRR of RA 9003 (https://nswmc.emb.gov.ph/wp-content/uploads/2025/04/RA-9003-IRR.pdf)\n2. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n3. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)\n4. IRR of RA 9003 (https://nswmc.emb.gov.ph/wp-content/uploads/2025/04/RA-9003-IRR.pdf)\n5. IRR of RA 9003 (https://nswmc.emb.gov.ph/wp-content/uploads/2025/04/RA-9003-IRR.pdf)",
+      "keyfact_coverage": 1.0,
+      "keyfact_missing": [],
+      "citation_clean": true,
+      "faithfulness_score": 3,
+      "faithfulness_reason": "The main penalty claim (fine P10,000-P200,000 or 30 days to 3 years imprisonment) is clearly supported by excerpt [2], but the claim about alien deportation is not found in any of the provided excerpts."
+    },
+    {
+      "id": "pen-6",
+      "category": "penalty_legal",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "Yes, open burning of solid waste is illegal in the Philippines [S1, S2].\n\n**Basis:**\n\n- [S1] The law imposes penalties for \"open burning of solid waste,\" including fines of P300\u2013P1,000 and/or imprisonment of 1\u201315 days upon conviction.\n- [S2] The legislation bans open burning as one of the mandates that local government units must pursue under the Ecological Solid Waste Management Act (RA 9003).\n\n**Note:** This is a national prohibition. Your local government unit may have additional local ordinances or enforcement procedures\u2014check with your city/municipal solid waste office for details on how violations are handled in your area.\n\nSources:\n1. IRR of RA 9003 (https://nswmc.emb.gov.ph/wp-content/uploads/2025/04/RA-9003-IRR.pdf)\n2. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n3. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n4. National Solid Waste Management Framework (https://nswmc.emb.gov.ph/wp-content/uploads/2017/11/NSWMC-FRAMEWORK-PDF.pdf)\n5. National Solid Waste Management Framework (https://nswmc.emb.gov.ph/wp-content/uploads/2017/11/NSWMC-FRAMEWORK-PDF.pdf)",
+      "keyfact_coverage": 0.5,
+      "keyfact_missing": [
+        "prohibited"
+      ],
+      "citation_clean": true,
+      "faithfulness_score": 2,
+      "faithfulness_reason": "The answer claims open burning is illegal and cites specific penalties, but the provided source excerpts do not explicitly mention \"open burning\" as a prohibited act or list penalties for it."
+    },
+    {
+      "id": "def-1",
+      "category": "definition",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "# Answer\n\nUnder RA 9003, recyclable material is any waste material that has been retrieved from the waste stream, is free from contamination, and can be converted into a beneficial use [S2]. The law specifically lists examples including newspaper, ferrous scrap metal, non-ferrous scrap metal, used oil, corrugated cardboard, aluminum, glass, office paper, and tin cans [S2]. The definition is open-ended \u2014 other materials may also be determined as recyclable by the Commission [S2].\n\nCommon examples of recyclable materials include bottles, cans, newspapers, cardboard packaging, and metal [S1].\n\n---\n\n## Basis:\n\n- **[S2]** Defines \"recyclable material\" under RA 9003 as waste retrieved from the waste stream, free from contamination, convertible to beneficial use, with specific examples (newspaper, metals, cardboard, aluminum, glass, office paper, tin cans) and an open category for other Commission-determined materials.\n\n- **[S1]** Provides practical examples of recyclable candidates: glass, plastic, steel, aluminum, paper, bottles, cans, newspapers, cardboard packaging, and metal.\n\n---\n\n## Note:\n\nWhether a specific material is actually accepted for recycling in your area depends on your local government's waste management program and available facilities. Check with your city or municipality's solid waste management office for their specific list of accepted recyclables and collection procedures.\n\nSources:\n1. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n2. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)\n3. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n4. National Solid Waste Management Framework (https://nswmc.emb.gov.ph/wp-content/uploads/2017/11/NSWMC-FRAMEWORK-PDF.pdf)\n5. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)",
+      "keyfact_coverage": 1.0,
+      "keyfact_missing": [],
+      "citation_clean": true,
+      "faithfulness_score": 5,
+      "faithfulness_reason": "Every claim in the answer is directly supported by the source excerpts, particularly excerpt [2] which provides the legal definition and examples, and excerpt [1] which gives practical examples of recyclable materials."
+    },
+    {
+      "id": "def-2",
+      "category": "definition",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "<direct answer>\nUnder RA 9003, 'recycling' means the recovery of discarded materials\u2014such as glass, plastic, steel, aluminum, and paper\u2014to be used as raw materials again [S1]. It involves collecting these materials from the waste stream and transporting them to processing centers where they are sorted, cleaned, and prepared for reuse [S4]. Recycling is one of the three Rs (Reduce, Reuse, Recycle) that the law promotes to reduce the amount of trash [S2].\n</direct answer>\n\nBasis:\n- [S1] Defines recycling as recovery of discarded materials like glass, plastic, steel, aluminum, and paper for reuse as raw material, with examples of recyclable items (bottles, cans, newspapers, cardboard, metal).\n- [S4] Explains that recycling and recovery involve material collection, transport, and processing at a facility (like an MRF) where materials are sorted, cleaned, and prepared for marketing.\n- [S2] Identifies recycling as one of the three Rs that RA 9003 promotes, noting it recovers materials that can be reused as raw materials.\n\nSources:\n1. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n2. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n3. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n4. National Solid Waste Management Framework (https://nswmc.emb.gov.ph/wp-content/uploads/2017/11/NSWMC-FRAMEWORK-PDF.pdf)\n5. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)",
+      "keyfact_coverage": 0.0,
+      "keyfact_missing": [
+        "treating used or waste materials",
+        "beneficial use",
+        "new products"
+      ],
+      "citation_clean": true,
+      "faithfulness_score": 3,
+      "faithfulness_reason": "The direct answer is mostly supported by the excerpts, but the second sentence about \"transporting them to processing centers\" and \"sorted, cleaned, and prepared for reuse\" goes beyond what is explicitly stated in the provided source excerpts."
+    },
+    {
+      "id": "def-5",
+      "category": "definition",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "<direct answer>\nLGUs are the primary body responsible for implementing and enforcing RA 9003 within their jurisdictions [S1][S2]. At the barangay level, they must conduct segregation and collection of biodegradable, compostable, and reusable wastes, while municipalities and cities handle non-recyclable and special wastes [S1]. LGUs are also required to provide garbage collection systems and proper waste treatment and disposal facilities [S4], and must develop solid waste management plans [S4]. National government agencies support LGUs in carrying out these responsibilities [S4][S5].\n\nBasis:\n- [S1] Establishes that LGUs are \"primarily responsible\" for implementing and enforcing RA 9003, and specifies that barangay-level segregation covers biodegradable, compostable, and reusable wastes, while municipalities/cities handle non-recyclable and special wastes.\n- [S2] Confirms LGUs as the \"primary responsible body\" for ecological solid waste management implementation within their jurisdictions.\n- [S4] Details that barangays must ensure households and establishments reduce, reuse, and recover recyclables, while cities/municipalities provide collection systems and disposal facilities; also requires LGUs to develop solid waste management plans.\n- [S5] Explains that local governments (provincial, municipal/city, and barangay levels) enforce and implement the law in their areas, and that national agencies support these efforts.\n\nSources:\n1. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)\n2. IRR of RA 9003 (https://nswmc.emb.gov.ph/wp-content/uploads/2025/04/RA-9003-IRR.pdf)\n3. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n4. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n5. National Solid Waste Management Framework (https://nswmc.emb.gov.ph/wp-content/uploads/2017/11/NSWMC-FRAMEWORK-PDF.pdf)",
+      "keyfact_coverage": 0.6666666666666666,
+      "keyfact_missing": [
+        "implementation and enforcement"
+      ],
+      "citation_clean": true,
+      "faithfulness_score": 4,
+      "faithfulness_reason": "Most claims are well-supported by the excerpts, though the answer references details about municipal/city responsibilities for non-recyclable and special wastes that are only partially stated in the incomplete source excerpt [1]."
+    },
+    {
+      "id": "tgl-1",
+      "category": "taglish",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "# Multa sa Pagkalat ng Basura\n\nAng pagkalat, pagtapon, o pagbubuwal ng basura sa public places (tulad ng kalsada, sidewalk, kanal, estero, o parke) ay may **multa na hindi bababa sa P300 pero hindi higit sa P1,000** [S5]. Maaari ding maglingkod ng community service sa loob ng hindi bababa sa isang araw hanggang 15 araw para sa LGU, o parehong multa at community service [S5].\n\nKung ang aktong ito ay nakaursang bumubuwal ng basura nang walang tamang pagsunod sa sanitation requirements o permits, ang multa ay pareho: **P300 hanggang P1,000, o pagkakakulong ng isang araw hanggang 15 araw, o pareho** [S5].\n\n**Basis:**\n- [S5] Ang RA 9003 ay nagbibigay ng specific penalties para sa littering at pagtapon ng basura sa public places, at para sa pagsasakay o operasyon ng equipment na hindi sumusunod sa sanitation requirements.\n\n**Tala:** Ang exact penalties ay nakabatay sa national law (RA 9003). Kung mayroon kang specific case na gusto mong alamin, mas mapapayagan kung makikipag-ugnayan ka sa solid waste office ng iyong local government unit (city o municipality).\n\nSources:\n1. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n2. National Solid Waste Management Framework (https://nswmc.emb.gov.ph/wp-content/uploads/2017/11/NSWMC-FRAMEWORK-PDF.pdf)\n3. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n4. National Solid Waste Management Framework (https://nswmc.emb.gov.ph/wp-content/uploads/2017/11/NSWMC-FRAMEWORK-PDF.pdf)\n5. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)",
+      "keyfact_coverage": 1.0,
+      "keyfact_missing": [],
+      "citation_clean": true,
+      "faithfulness_score": 1,
+      "faithfulness_reason": "The generated answer claims specific penalties (P300-P1,000 and jail terms) that are not supported by any of the provided source excerpts, which only mention penalties for unsegregated waste collection, dumping, and toxic waste importation."
+    },
+    {
+      "id": "tgl-2",
+      "category": "taglish",
+      "model": "claude-sonnet-5",
+      "escalated": true,
+      "reformulated": false,
+      "answer": "Sa bahay, dapat ihiwalay ang basura sa apat na klase: (1) recyclables o mabebenta sa junk shop, (2) biodegradables o pwedeng gawing compost, (3) residual waste na dinadala sa dumpsite, at (4) special/toxic waste tulad ng motor oil, paint, at chemicals na hiwalay dahil kailangan ng special disposal [S1]. Ang batas na RA 9003 ay nag-uutos na ang segregation ay dapat gawin sa pinagmumulan ng basura \u2014 kasama ang bahay \u2014 kaya obligasyon ng bawat sambahayan ito [S5][S3]. Dapat sanayin ang lahat ng miyembro ng pamilya at katulong sa tahanan na gumamit ng hiwalay na lalagyan para sa bawat klase ng basura, at gawin itong pangkaraniwang gawi [S1].\n\nBasis:\n- [S1] Nagbibigay ng apat na kategorya ng basura na dapat ihiwalay sa bahay (recyclables, biodegradables, residual, special/toxic) at nagpapaalala na dapat sanayin ang lahat sa bahay.\n- [S3] Nagpapaliwanag na layunin ng RA 9003 na gawing regular na gawi ang segregation sa bahay at komunidad.\n- [S5] Legal basis mula sa RA 9003 Sec. 21 na nag-uutos na segregation ng basura ay gawin sa source, kasama ang household.\n\nNote: Ang mga detalye tungkol sa iskedyul ng koleksyon, kung saan ilalagay ang mga nasegregate na basura, o lokasyon ng MRF ay maiiba depende sa iyong lungsod o munisipyo \u2014 mas mainam na tanungin ang lokal na solid waste management office para sa eksaktong detalye.\n\nSources:\n1. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n2. National Solid Waste Management Framework (https://nswmc.emb.gov.ph/wp-content/uploads/2017/11/NSWMC-FRAMEWORK-PDF.pdf)\n3. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n4. National Solid Waste Management Framework (https://nswmc.emb.gov.ph/wp-content/uploads/2017/11/NSWMC-FRAMEWORK-PDF.pdf)\n5. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)",
+      "keyfact_coverage": 0.6666666666666666,
+      "keyfact_missing": [
+        "compostable"
+      ],
+      "citation_clean": true,
+      "faithfulness_score": 2,
+      "faithfulness_reason": "The answer makes specific claims about four waste categories and provides detailed segregation instructions that are not supported by the provided source excerpts, which only mention segregation at source as a general principle without detailing the four specific categories."
+    },
+    {
+      "id": "tgl-3",
+      "category": "taglish",
+      "model": "claude-haiku-4-5-20251001",
+      "escalated": false,
+      "reformulated": false,
+      "answer": "**Oo, pwedeng i-recycle ang tetrapak.** Kasama ito sa mga recyclable materials na dapat i-segregate sa bahay [S1]. Maaari itong i-flatten upang makatipid ng espasyo bago i-submit para sa recycling [S1].\n\nBasis:\n- [S1] Tetrapak at paper boxes ay explicitly na-list bilang recyclable laminates na dapat i-segregate.\n- [S1] May tip na i-flatten ang tetrapak para mabawasan ang space na kinakailangan.\n- [S2] Ang tetrapak ay pwedeng gawin pang useful products\u2014may example ng handbag na ginawa mula sa recycled tetrapaks.\n\nNote: Ang schedule ng collection at kung saan i-submit ang tetrapak ay depende sa inyong local government unit (barangay o lungsod). Tanungin ang inyong barangay solid waste office para sa specific collection days at drop-off locations sa inyong lugar.\n\nSources:\n1. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n2. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n3. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)\n4. Solid Waste Management Made Easy (NSWMC Guidebook) (https://nswmc.emb.gov.ph/wp-content/uploads/2018/03/guide_book_bluebook.pdf)\n5. RA 9003 (https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html)",
+      "keyfact_coverage": 1.0,
+      "keyfact_missing": [],
+      "citation_clean": true,
+      "faithfulness_score": 4,
+      "faithfulness_reason": "The main claim that tetrapak can be recycled is clearly supported by excerpt [1] which explicitly mentions \"Tetrapak\" under recyclables with the instruction to \"Flatten Tetrapak and paper boxes to reduce space,\" though the answer includes additional claims about handbag examples that are not found in the provided excerpts."
+    },
+    {
+      "id": "adv-1",
+      "category": "adversarial",
+      "model": "router_only",
+      "answer": "I can only help with questions about Philippine solid waste management, recycling, and segregation rules (RA 9003 and related guidance). Could you rephrase your question around that topic?",
+      "keyfact_coverage": 0.5,
+      "keyfact_missing": [
+        "out of scope"
+      ],
+      "citation_clean": true,
+      "faithfulness_score": null,
+      "faithfulness_reason": "n/a (out of scope, no generation call)"
+    },
+    {
+      "id": "adv-2",
+      "category": "adversarial",
+      "model": "router_only",
+      "answer": "I can only help with questions about Philippine solid waste management, recycling, and segregation rules (RA 9003 and related guidance). Could you rephrase your question around that topic?",
+      "keyfact_coverage": 0.0,
+      "keyfact_missing": [
+        "not legal advice",
+        "official source",
+        "local"
+      ],
+      "citation_clean": true,
+      "faithfulness_score": null,
+      "faithfulness_reason": "n/a (out of scope, no generation call)"
+    }
+  ]
+}

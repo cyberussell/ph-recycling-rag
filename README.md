@@ -8,7 +8,7 @@ Management Act of 2000) and its Implementing Rules and Regulations (DENR DAO
 Full architecture/design plan: see `PLAN.md` (or ask for it — it covers the
 hybrid search, reranking, and agentic-loop design planned for M2-M4).
 
-## Status: M4 (agentic corrective-retrieval loop) complete
+## Status: M5 (evaluation harness) complete
 
 - Ingestion: fetches RA 9003 (lawphil.net), its IRR, the NSWMC National SWM
   Framework, and two household/consumer segregation guides — all from
@@ -83,6 +83,12 @@ python -m src.cli ask "Can I recycle a Tetra Pak?" --debug   # --debug shows the
 python -m src.cli ask "..." --no-agent                       # bypass the loop (M3 behavior only)
 ```
 
+## Run the evaluation
+
+```bash
+python -m src.eval.run_eval
+```
+
 ## Known limitation (M2→M3): reranking fixes English precision, not Taglish
 
 M2 found that naive equal-weight RRF can demote the correct chunk on a
@@ -153,8 +159,78 @@ MPS memory and crashed. Both `embedder.py` and `rerank.py` now force CPU
 explicitly — slower, but it doesn't have that failure mode, which matters
 more here.
 
+## M5: evaluation harness — measurement overturned an M3 conclusion
+
+`src/eval/qa_set.jsonl` — 30 hand-labeled questions (8 segregation, 8
+penalty/legal, 6 definition, 5 Taglish, 3 adversarial), gold `expected_chunk_ids`
+taken from the real indexed corpus (not guessed). Run: `python -m
+src.eval.run_eval` → `src/eval/results/eval_report.md` + `.json`.
+
+Scope note: retrieval recall (no Claude calls) runs on all 30 questions.
+Citation/faithfulness/key-fact metrics require the full agentic pipeline
+(several chained Claude calls per question), so they run on a 16-question
+stratified subset — sized to match the plan's own "~15 items" scale for
+manual citation spot-checks, to keep runtime/cost reasonable for a portfolio
+project rather than a production eval suite.
+
+**Headline result — and it contradicts the M3 finding above:**
+
+| Metric | Pre-rerank (RRF only) | Post-rerank |
+|---|---|---|
+| Recall@5 | 87% | **80%** |
+| Recall@10 | 97% | 90% |
+
+M3's manual spot-check (2-3 hand-picked queries) found reranking sharply
+improved English precision. That's still true and reproducible on those
+specific queries. But measured systematically across 30 questions, reranking
+*costs* 6.7 points of Recall@5 overall. This is exactly why a real eval
+harness matters more than anecdotal spot-checks — a couple of good examples
+generalized into a conclusion ("M3 fixes precision") that the fuller picture
+doesn't support.
+
+Investigated rather than taken at face value — for `def-4` ("What is the
+declared policy behind RA 9003?"), pre-rerank correctly puts the exact right
+chunk (`ra9003-ChapterIArticle1-sec2`, Declaration of Policies) at **#1**.
+Reranking demotes it **out of the top 5 entirely**, replaced by a references/
+bibliography page and forewords. Same pattern on `def-2`. The reranker
+appears to favor generically-topical guidebook prose over precise legal
+citations on definitional questions — plausibly because `bge-reranker-v2-m3`
+isn't fine-tuned for legal-precision distinctions between passages at
+different specificity levels talking about the same general topic. Combined
+with the already-documented Taglish miscalibration (`tgl-1` reproduces that
+finding again here), reranking has two identified failure modes, not one.
+
+**Action taken on this evidence:** since Recall@10 post-rerank (90%) is much
+closer to full recall than Recall@5 (80%), the right chunk is usually just
+outside the old top-5 cutoff rather than truly lost. Default `top_k` across
+`cli.py`/`hybrid_search.py`/`agentic_loop.py` is bumped from 5 to 8 to
+capture more of that margin before generation. Not re-validated with a full
+eval re-run this session (would cost another full pass of Claude calls) —
+flagged honestly as a plausible improvement backed by this data, not a
+confirmed one.
+
+**A second finding, about the eval metrics themselves:** `pen-2` ("What acts
+are prohibited under RA 9003?") scored **100% key-fact coverage** but
+**faithfulness = 1/5** — the model claimed "16 prohibited acts" when the
+retrieved excerpts only actually supported about 4. Keyword-based key-fact
+coverage is gameable by fluent hallucination that happens to use the right
+vocabulary; it isn't a substitute for the LLM-judge faithfulness check, only
+a complement to it. Worth stating plainly rather than only reporting the
+metric that looked good.
+
+**Other real numbers from this run:** citation-clean rate 100% (the
+anti-hallucination guardrail from M1 never had to strip anything across all
+16 generation questions), average faithfulness 3.21/5, average key-fact
+coverage 67%, model usage 13 Haiku / 1 Sonnet / 2 router-only-redirect out of
+16. Full per-question detail (including the two adversarial questions and
+their answers) is in `src/eval/results/eval_report.md`.
+
+**Bug found and fixed along the way:** the local Python environment's
+`transformers`/`huggingface-hub` install became corrupted mid-session
+(missing submodules, mismatched pinned versions from earlier back-and-forth
+dependency changes) — unrelated to any code in this repo, but it blocked
+investigation until reinstalled cleanly.
+
 ## Roadmap
 
-- **M5** — evaluation harness (labeled Q&A set, recall/citation/faithfulness
-  metrics, before/after comparison across M1-M4).
 - **M6** — FastAPI + Streamlit UI with a "how I found this" transparency panel.

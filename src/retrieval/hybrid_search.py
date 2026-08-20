@@ -75,12 +75,12 @@ def _fuse(query: str, collection_name: str) -> list[dict]:
     return chunks
 
 
-def search(query: str, top_k: int = 5, collection_name: str = COLLECTION_NAME) -> list[dict]:
+def search(query: str, top_k: int = 8, collection_name: str = COLLECTION_NAME) -> list[dict]:
     candidates = _fuse(query, collection_name)
     return rerank(query, candidates, top_k)
 
 
-def search_with_trace(query: str, top_k: int = 5, collection_name: str = COLLECTION_NAME) -> dict:
+def search_with_trace(query: str, top_k: int = 8, collection_name: str = COLLECTION_NAME) -> dict:
     """Same as search(), but also returns the pre-rerank (RRF-only) ranking
     so a caller (CLI --debug, the eval harness) can show/measure what
     reranking changed."""

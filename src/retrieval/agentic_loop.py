@@ -124,7 +124,7 @@ def _apply_doc_type_boost(chunks: list[dict], boost_doc_types: list[str]) -> lis
     return sorted(chunks, key=lambda c: c.get("rerank_score", 0.0), reverse=True)
 
 
-def run_retrieval(query: str, top_k: int = 5) -> dict:
+def run_retrieval(query: str, top_k: int = 8) -> dict:
     classification = classify_query(query)
     if classification["intent"] == "out_of_scope":
         return {
