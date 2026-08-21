@@ -5,10 +5,15 @@ grounded in real public regulatory text: RA 9003 (Ecological Solid Waste
 Management Act of 2000) and its Implementing Rules and Regulations (DENR DAO
 2001-34). Every answer cites the specific section it came from.
 
+**Live demo:** [huggingface.co/spaces/cyberussell/ph-recycling-rag](https://huggingface.co/spaces/cyberussell/ph-recycling-rag)
+— rate-limited to keep API costs bounded; first load after inactivity can
+take a few minutes while the container cold-starts (see the M7 section
+below for why, and the real bugs found getting it deployed).
+
 Full architecture/design plan: see `PLAN.md` (or ask for it — it covers the
 hybrid search, reranking, and agentic-loop design planned for M2-M4).
 
-## Status: M6 (UI) complete — all milestones done
+## Status: M7 (live deployment) complete — all milestones done
 
 ```mermaid
 flowchart LR
@@ -301,3 +306,61 @@ for the original design and each milestone section above for what was
 actually found while building it, including two places where testing
 overturned an earlier conclusion (M2→M3's Taglish reranking hope, and M3→M5's
 "reranking helps" spot-check) rather than just confirming assumptions.
+
+## M7: live deployment — rate limiting, a real concurrency bug, and a platform migration
+
+Beyond the original six-milestone plan: getting a public link up meant
+protecting the Anthropic API key from unbounded cost and getting the app
+running on infrastructure that could actually host it (~3GB of local ML
+models, well past a static-site or serverless budget).
+
+**Rate limiting.** `src/api/rate_limit.py` — a deliberately simple in-memory
+per-IP + global daily cap on `POST /ask` (no Redis; a single free-tier
+container doesn't need a distributed limiter, just a hard ceiling on worst-
+case Anthropic spend from a public link).
+
+**A real concurrency bug, found by testing the fresh-container path.**
+Simulating a cold start (deleting the local index, starting the API from
+scratch) crashed immediately: `"already accessed by another instance of
+Qdrant client."` `get_client()` created a brand-new `QdrantClient` on every
+call; Qdrant's embedded local mode holds an exclusive file lock, so two live
+instances at once — the startup bootstrap's own check plus a helper it
+called internally — collided. This wasn't just a bootstrap-code bug: any
+overlapping `get_client()` calls, including under ordinary concurrent
+requests, could have hit the same crash. Fixed by caching the client as a
+process-wide singleton (`src/indexing/client.py`), the same pattern already
+used for the embedder and reranker. A second bug surfaced alongside it: the
+bootstrap's `try/finally` marked the index "ready" even when the build
+raised an exception, so a failed build would have silently served a broken
+index while `/health` reported healthy. Now the error is recorded and
+surfaces via `/health` and a 503 on `/ask`.
+
+**Deployment platform: Hugging Face Spaces, via Docker SDK, after two
+detours.** HF's `create_repo` API no longer accepts `sdk="streamlit"`
+directly (current valid values: `gradio`/`docker`/`static`) — resolved by
+using Docker SDK with a Space-specific Dockerfile that runs Streamlit
+directly, since `streamlit_app.py` already auto-starts the FastAPI backend
+as a subprocess (originally built for local single-command convenience, it
+turned out to be exactly what HF's single-process Docker SDK needed).
+Second detour: a first push was rejected — `"Your push was rejected because
+it contains binary files... use Xet/LFS instead"` — because the small
+pre-built `qdrant_local/` index committed on `master` for instant local
+startup isn't acceptable to HF's plain-git receive hook at all, regardless
+of size. Removing the file from the tip commit wasn't enough (still
+reachable from earlier history inherited from `master`), so the Space is
+deployed from a clean orphan branch with a single commit, and leans on the
+startup bootstrap (built for the concurrency-bug testing above) as its
+*primary* index-build path rather than a fallback — verified end-to-end
+against the live Space: cold container → model download → 481-chunk index
+rebuild (a few minutes, `/ask` returns a clear 503 the whole time rather
+than failing silently) → a real, correctly-cited answer.
+
+**One blocker that wasn't a code problem at all:** restarting the newly-
+created Space failed with `403: You've reached your cpu-basic quota limit...
+pause your previous Spaces to restart this one` — on an account with zero
+other Spaces. Confirmed via both the API and the Hugging Face web UI restart
+button (identical error on both), ruling out anything specific to this
+Space's configuration; account billing showed no visible quota indicator to
+act on either. Resolved by upgrading the account to PRO — outside anything
+fixable from the codebase or CLI, a reminder that "add a live demo link"
+can depend on infrastructure decisions, not just code.
