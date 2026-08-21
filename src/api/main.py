@@ -17,6 +17,7 @@ from ..indexing.build_index import index_chunks, load_processed_chunks
 from ..indexing.client import get_client
 from ..indexing.qdrant_schema import COLLECTION_NAME
 from ..retrieval.agentic_loop import run_retrieval
+from ..retrieval.rerank import rerank
 from .rate_limit import check_and_increment
 from .schemas import AskRequest, AskResponse, AttemptTrace, DebugInfo, RetrievedChunk, SourceRef
 
@@ -55,6 +56,11 @@ def _ensure_index_built() -> None:
             needs_build = count == 0
         if needs_build:
             index_chunks(load_processed_chunks("m2"), fresh=True)
+        # Load the reranker model now rather than on the first real request —
+        # otherwise the very first /ask after a cold start pays its
+        # multi-second load time on top of already-slow CPU inference,
+        # stacking onto the timeout problem this whole warmup is meant to help.
+        rerank("warmup", [{"text": "warmup"}], top_k=1)
     except Exception as e:  # noqa: BLE001 - must not crash the background thread
         _index_build_error = f"{type(e).__name__}: {e}"
     finally:

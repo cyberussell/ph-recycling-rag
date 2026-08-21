@@ -24,6 +24,14 @@ from sentence_transformers import CrossEncoder
 
 MODEL_NAME = "BAAI/bge-reranker-v2-m3"
 
+# Cross-encoder cost scales with input length; a chunk can run up to ~700
+# tokens (section_chunker.py's cap) but relevance is almost always evident
+# from the opening portion. Capping the reranked text (not the text shown to
+# the user or passed to generation — just what the reranker itself sees)
+# was the other half of fixing real >100s response times on CPU-only hosting,
+# alongside FUSION_CANDIDATES in hybrid_search.py.
+RERANK_TEXT_CHARS = 400
+
 
 @lru_cache(maxsize=1)
 def _model() -> CrossEncoder:
@@ -33,7 +41,7 @@ def _model() -> CrossEncoder:
 def rerank(query: str, chunks: list[dict], top_k: int) -> list[dict]:
     if not chunks:
         return []
-    pairs = [(query, c["text"]) for c in chunks]
+    pairs = [(query, c["text"][:RERANK_TEXT_CHARS]) for c in chunks]
     scores = _model().predict(pairs)
     for c, s in zip(chunks, scores):
         c["rerank_score"] = float(s)

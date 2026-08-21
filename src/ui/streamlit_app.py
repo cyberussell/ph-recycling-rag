@@ -81,7 +81,15 @@ if ask_clicked and question.strip():
     with st.spinner("Classifying, searching, and generating an answer..."):
         result = None
         try:
-            resp = requests.post(f"{API_URL}/ask", json={"question": question}, timeout=120)
+            # 240s: on free CPU-only hosting the agentic loop's worst case
+            # (reformulate-and-retry, each attempt paying full embed+rerank
+            # cost) can genuinely take a couple minutes — 120s was hit for
+            # real on Hugging Face's cpu-basic tier and errored out a
+            # request that would have succeeded. Real latency reduction
+            # lives in hybrid_search.py's FUSION_CANDIDATES; this is just
+            # the safety margin so a slow-but-working answer isn't treated
+            # as a failure.
+            resp = requests.post(f"{API_URL}/ask", json={"question": question}, timeout=240)
             if resp.status_code == 429:
                 st.warning(resp.json().get("detail", "Demo request limit reached — please try again tomorrow."))
             elif resp.status_code == 503:

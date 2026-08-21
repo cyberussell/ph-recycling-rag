@@ -18,7 +18,18 @@ from ..indexing.qdrant_schema import COLLECTION_NAME, DENSE_VECTOR_NAME, SPARSE_
 from .rerank import rerank
 
 RRF_K = 60  # standard damping constant from the original RRF paper
-FUSION_CANDIDATES = 20  # how many candidates each leg contributes before fusion
+# How many candidates each leg (dense, sparse) contributes before fusion.
+# The full fused/deduped set (up to 2x this) gets cross-encoder reranked —
+# on free CPU-only hosting that's the dominant latency cost per query, and
+# the agentic loop can pay it twice (reformulate-and-retry). Lowered from 20
+# after a live deploy on Hugging Face's free cpu-basic tier hit the
+# Streamlit->API 120s timeout outright. Measured: even at 10, a single
+# search() call took ~44s steady-state on local dev hardware — the
+# bge-reranker-v2-m3 cross-encoder itself (a ~568M-param model) is slow
+# per-pair on CPU, not just candidate-count-bound, so this went down further
+# (see also rerank.py's text-length cap, the other half of this fix). Real
+# production-vs-portfolio-demo tradeoff: this trades away recall margin.
+FUSION_CANDIDATES = 6
 
 
 def _dense_search(client, collection_name: str, dense_vector: list[float], limit: int):
